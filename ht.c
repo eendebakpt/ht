@@ -24,7 +24,7 @@ struct ht {
 
 ht* ht_create(void) {
     // Allocate space for hash table struct.
-    ht* table = malloc(sizeof(ht));
+    ht* table = (ht *)malloc(sizeof(ht));
     if (table == NULL) {
         return NULL;
     }
@@ -32,7 +32,7 @@ ht* ht_create(void) {
     table->capacity = INITIAL_CAPACITY;
 
     // Allocate (zero'd) space for entry buckets.
-    table->entries = calloc(table->capacity, sizeof(ht_entry));
+    table->entries = (ht_entry *)calloc(table->capacity, sizeof(ht_entry));
     if (table->entries == NULL) {
         free(table); // error, free table before we return!
         return NULL;
@@ -129,7 +129,7 @@ static bool ht_expand(ht* table) {
     if (new_capacity < table->capacity) {
         return false;  // overflow (capacity would be too big)
     }
-    ht_entry* new_entries = calloc(new_capacity, sizeof(ht_entry));
+    ht_entry* new_entries = (ht_entry *)calloc(new_capacity, sizeof(ht_entry));
     if (new_entries == NULL) {
         return false;
     }
